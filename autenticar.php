@@ -1,21 +1,25 @@
 <?php
 require_once 'conexao.php';
+session_start();
 
-// Função de Autenticação/Login
-function autenticarUsuario($username, $password) {
-    $conn = conectarBanco();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-    // Consulta para verificar se o usuário e senha correspondem
-    $sql = "SELECT * FROM login WHERE usuario = '$username' AND senha = '$password'";
-    $result = $conn->query($sql);
+    $conexao = conectarBanco();
 
-    if ($result->num_rows > 0) {
-        // Autenticação bem-sucedida
-        return true;
+    $sql = "SELECT * FROM usuario WHERE usuario = '$username' AND senha = '$password'";
+    $resultado = $conexao->query($sql);
+
+    if ($resultado->num_rows > 0) {
+        $_SESSION["usuario"] = $username;
+        $_SESSION["contas"] = []; // Array para armazenar as contas
+
+        header("Location: calculadora.php"); // Redirecionar para a página da calculadora
     } else {
-        // Autenticação falhou
-        echo 'deu ruim';
-        return false;
+        echo "Usuário ou senha inválidos.";
     }
+
+    $conexao->close();
 }
 ?>
