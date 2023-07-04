@@ -44,7 +44,7 @@ function exibirContas() {
         <h1>Calculadora</h1>
         <p>Seja bem vindo  <?php echo $_SESSION['usuario']; ?>.</p>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-9">
                 <input type="text" class="form-control" id="resultado" disabled>
             </div>
         </div>
